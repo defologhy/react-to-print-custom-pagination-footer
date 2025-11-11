@@ -62,9 +62,9 @@ Fungsi paginateCustomForPrint menerima satuan milimeter (mm), bukan pixel.
 ## 🧩 Struktur Parameter
 ```js
 paginateCustomForPrint(
-  data,             // array data yang akan diprint
-  pageHeightMm,     // tinggi halaman (misal: 297 mm untuk A4)
-  contentHeightMm,  // tinggi area konten di dalam halaman
+  printedBy,        // user yang melakukan print
+  pageHeightMm,     // tinggi halaman (misal: 293 mm untuk A4)
+  contentHeightMm,  // tinggi area konten di dalam halaman (misal: 297 mm untuk A4)
   footerHeightMm,   // tinggi area footer di setiap halaman
   paddingMm,        // padding halaman dalam mm
   sectionSelector?, // optional: selector elemen section
