@@ -20,16 +20,15 @@ Package ini dirancang untuk mengatasi keterbatasan browser Chrome yang **tidak m
 
 ```bash
 npm install react-to-print-custom-pagination-footer
+```
 atau
-
-bash
-Copy code
+```bash
 yarn add react-to-print-custom-pagination-footer
-🚀 Cara Penggunaan
-Berikut contoh dasar penggunaannya bersama dengan react-to-print:
+```
 
-jsx
-Copy code
+## 🚀 Cara Penggunaan
+Berikut contoh dasar penggunaannya bersama dengan react-to-print:
+```bash
 import ReactToPrint from "react-to-print";
 import { paginateCustomForPrint, useCustomPrintFooter } from "react-to-print-custom-pagination-footer";
 import { style } from "./printStyles"; // contoh file berisi style print
@@ -55,12 +54,12 @@ import { style } from "./printStyles"; // contoh file berisi style print
     );
   }}
 />
+```
+
 Catatan:
 Fungsi paginateCustomForPrint menerima satuan milimeter (mm), bukan pixel.
 
-🧩 Struktur Parameter
-js
-Copy code
+## 🧩 Struktur Parameter
 paginateCustomForPrint(
   data,             // array data yang akan diprint
   pageHeightMm,     // tinggi halaman (misal: 297 mm untuk A4)
@@ -80,9 +79,7 @@ paddingMm	number	0	Padding di setiap halaman (mm).
 
 📄 Contoh Style Print
 File: printStyles.js
-
-js
-Copy code
+```bash
 export const style = () => `
   @media print {
     @page {
@@ -95,56 +92,46 @@ export const style = () => `
     }
   }
 `;
-🧠 Contoh Kasus Penggunaan
+```
+## 🧠 Contoh Kasus Penggunaan
 Misalnya kamu memiliki laporan yang terdiri dari banyak bagian data (bulky data), dan kamu ingin setiap laporan memiliki penomoran halaman sendiri-sendiri (reset pagination) seperti:
 
-swift
-Copy code
 Laporan A -> Halaman 1/4, 2/4, 3/4, 4/4
 Laporan B -> Halaman 1/3, 2/3, 3/3
 Browser seperti Google Chrome tidak mengizinkan pengaturan footer custom melalui CSS (@page atau @bottom-center), maka package ini dapat digunakan untuk menambahkan footer tersebut secara dinamis melalui JavaScript.
 
-💡 Catatan Penting
+## 💡 Catatan Penting
 Package ini bekerja dengan menambahkan elemen footer ke dalam setiap halaman hasil render print.
-
 Cocok digunakan bersama react-to-print, bukan untuk PDF rendering server-side.
-
 Disarankan menentukan tinggi footer agar layout tidak terpotong.
-
 Semua ukuran mendukung satuan mm untuk presisi tinggi saat print.
-
 Mendukung penambahan label "Printed by" di kiri bawah halaman.
 
-🧾 Contoh Footer Otomatis
+## 🧾 Contoh Footer Otomatis
 Contoh hasil print akan memiliki footer seperti berikut:
 
-csharp
-Copy code
-Printed by: Defitra M. Yasin             Halaman 1/3
-11-11-2025 10:42                         Halaman 2/3
-                                          Halaman 3/3
+Dicetak pada 11-11-2025 10:42 oleh Defitra M. Yasin                         Halaman 1/3
 Footer akan otomatis ditambahkan pada setiap halaman yang dihasilkan oleh react-to-print.
 
-📏 Ukuran Referensi Kertas
+## 📏 Ukuran Referensi Kertas
 Jenis Kertas	Lebar (mm)	Tinggi (mm)
 A4	210	297
 Letter	216	279
 Legal	216	356
 
-🧰 Tips Tambahan
+## 🧰 Tips Tambahan
 Jika kamu ingin agar penomoran halaman reset untuk setiap grup data (misalnya per laporan), panggil paginateCustomForPrint() setiap kali sebelum proses print per grup.
 
 Contoh:
-
-js
-Copy code
+```bash
 onBeforeGetContent={() => {
   data.forEach(report => {
     paginateCustomForPrint(report.items, 297, 280, 15, 10);
   });
 }}
-🖋️ Lisensi
+```
+
+## 🖋️ Lisensi
 MIT License © 2025
 Dikembangkan untuk membantu kebutuhan print bulky dengan custom pagination di browser Chrome.
-
 Semoga bermanfaat — terima kasih! 🙌
