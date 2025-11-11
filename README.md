@@ -60,6 +60,7 @@ Catatan:
 Fungsi paginateCustomForPrint menerima satuan milimeter (mm), bukan pixel.
 
 ## 🧩 Struktur Parameter
+```js
 paginateCustomForPrint(
   data,             // array data yang akan diprint
   pageHeightMm,     // tinggi halaman (misal: 297 mm untuk A4)
@@ -69,13 +70,16 @@ paginateCustomForPrint(
   sectionSelector?, // optional: selector elemen section
   contentSelector?  // optional: selector elemen konten
 );
-⚙️ Opsi Konfigurasi
-Opsi	Tipe	Default	Deskripsi
-printedBy	string	""	Menampilkan nama user yang melakukan print di kiri bawah.
-pageHeightMm	number	0	Total tinggi halaman (contoh: 297mm untuk A4).
-contentHeightMm	number	0	Total tinggi area konten per halaman.
-footerHeightMm	number	0	Tinggi area footer di setiap halaman.
-paddingMm	number	0	Padding di setiap halaman (mm).
+```
+
+## ⚙️ Opsi Konfigurasi
+| Opsi | Tipe | Default | Deskripsi |
+|------|------|----------|------------|
+| `printedBy` | `string` | `""` | Menampilkan nama user yang melakukan print di kiri bawah. |
+| `pageHeightMm` | `number` | `0` | Total tinggi halaman (contoh: 297 mm untuk A4). |
+| `contentHeightMm` | `number` | `0` | Total tinggi area konten per halaman. |
+| `footerHeightMm` | `number` | `0` | Tinggi area footer di setiap halaman. |
+| `paddingMm` | `number` | `0` | Padding di setiap halaman (mm). |
 
 📄 Contoh Style Print
 File: printStyles.js
@@ -94,35 +98,35 @@ export const style = () => `
 `;
 ```
 ## 🧠 Contoh Kasus Penggunaan
-Misalnya kamu memiliki laporan yang terdiri dari banyak bagian data (bulky data), dan kamu ingin setiap laporan memiliki penomoran halaman sendiri-sendiri (reset pagination) seperti:
+Misalnya kamu memiliki laporan yang terdiri dari banyak bagian data (bulky data), dan kamu ingin setiap laporan memiliki penomoran halaman sendiri-sendiri (reset pagination) seperti:<br><br>
 
-Laporan A -> Halaman 1/4, 2/4, 3/4, 4/4
-Laporan B -> Halaman 1/3, 2/3, 3/3
+Laporan A -> Halaman 1/4, 2/4, 3/4, 4/4 <br>
+Laporan B -> Halaman 1/3, 2/3, 3/3<br>
 Browser seperti Google Chrome tidak mengizinkan pengaturan footer custom melalui CSS (@page atau @bottom-center), maka package ini dapat digunakan untuk menambahkan footer tersebut secara dinamis melalui JavaScript.
 
 ## 💡 Catatan Penting
-Package ini bekerja dengan menambahkan elemen footer ke dalam setiap halaman hasil render print.
-Cocok digunakan bersama react-to-print, bukan untuk PDF rendering server-side.
-Disarankan menentukan tinggi footer agar layout tidak terpotong.
-Semua ukuran mendukung satuan mm untuk presisi tinggi saat print.
+Package ini bekerja dengan menambahkan elemen footer ke dalam setiap halaman hasil render print.<br>
+Cocok digunakan bersama react-to-print, bukan untuk PDF rendering server-side.<br>
+Disarankan menentukan tinggi footer agar layout tidak terpotong.<br>
+Semua ukuran mendukung satuan mm untuk presisi tinggi saat print.<br>
 Mendukung penambahan label "Printed by" di kiri bawah halaman.
 
 ## 🧾 Contoh Footer Otomatis
 Contoh hasil print akan memiliki footer seperti berikut:
 
-Dicetak pada 11-11-2025 10:42 oleh Defitra M. Yasin                         Halaman 1/3
+Dicetak pada 11-11-2025 10:42 oleh Defitra M. Yasin                         Halaman 1/3<br>
 Footer akan otomatis ditambahkan pada setiap halaman yang dihasilkan oleh react-to-print.
 
 ## 📏 Ukuran Referensi Kertas
-Jenis Kertas	Lebar (mm)	Tinggi (mm)
-A4	210	297
-Letter	216	279
+Jenis Kertas	Lebar (mm)	Tinggi (mm)<br>
+A4	210	297<br>
+Letter	216	279<br>
 Legal	216	356
 
 ## 🧰 Tips Tambahan
 Jika kamu ingin agar penomoran halaman reset untuk setiap grup data (misalnya per laporan), panggil paginateCustomForPrint() setiap kali sebelum proses print per grup.
 
-Contoh:
+Contoh:<br>
 ```bash
 onBeforeGetContent={() => {
   data.forEach(report => {
