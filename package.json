@@ -1,6 +1,6 @@
 {
   "name": "react-to-print-custom-pagination-footer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "custom footer tulisan bagian bawah kiri berisi timestamp dan tulisan bawah kanan berisi paging. package ini diperuntukan untuk print dari web browser chrome yang tidak support custom pagination. dengan contoh kasus misalnya dibutuhkan print bulky menggunakan react-to-print package, tetapi setiap data akan reset penomoran paging nya, maka package ini untuk handle case tersebut dikarenakan web browser chrome tidak support untuk custom footer via css, sehingga di package ini dibuatkan untuk custom footer khususnya di penomoran pagination. semoga bermanfaat, terima kasih",
   "main": "index.js",
   "scripts": {

@@ -1,35 +1,49 @@
-const paginateCustomForPrint = (data, pageHeightPx, contentHeightPx, footerHeightPx, paddingMm) => {
-  const usableHeight = pageHeightPx - footerHeightPx - footerHeightPx;
-  const sections = document.querySelectorAll(".report-section");
+const paginateCustomForPrint = (
+  printedBy,
+  pageHeightMm,
+  contentHeightMm,
+  footerHeightMm,
+  paddingMm,
+  sectionClassName,
+  contentClassName
+) => {
+  const PX_PER_MM = 3.779528;
+
+  // usable height
+  const usableHeightMm = pageHeightMm - footerHeightMm - footerHeightMm;
+
+  const sections = document.querySelectorAll(sectionClassName);
 
   sections.forEach((section) => {
-    const content = section.querySelector(".print-content");
+    const content = section.querySelector(contentClassName);
     if (!content) return;
-    // hapus halaman lama supaya konten gk numpuk
-    section.querySelectorAll(".page-print").forEach((pagePrint) => pagePrint.remove());
-    // cloning konten untuk hitung total tinggi konten nya tanpa ganggu konten aslinya
-    const cloneContent = content.cloneNode(true);
-    cloneContent.style.cssText = `
+
+    // hapus halaman lama
+    section.querySelectorAll(".page-print").forEach((p) => p.remove());
+
+    // clone untuk hitung tinggi
+    const clone = content.cloneNode(true);
+    clone.style.cssText = `
       position: absolute;
       visibility: hidden;
-      width: 800px;
+      width: 210mm;
       top: 0;
       left: -9999px;
     `;
-    document.body.appendChild(cloneContent);
-    const totalHeight = cloneContent.scrollHeight;
-    document.body.removeChild(cloneContent);
+    document.body.appendChild(clone);
 
-    // hitung jumlah halaman di setiap data
-    const totalPages = Math.ceil(totalHeight / usableHeight);
-    // loop halaman per data
-    for (let counterPage = 0; counterPage < totalPages; counterPage++) {
-      // page
-      const pageDiv = document.createElement("div");
-      pageDiv.className = "page-print";
-      pageDiv.style.cssText = `
+    const totalHeightPx = clone.scrollHeight;
+    document.body.removeChild(clone);
+
+    const totalHeightMm = totalHeightPx / PX_PER_MM;
+    const totalPages = Math.ceil(totalHeightMm / usableHeightMm);
+
+    for (let i = 0; i < totalPages; i++) {
+      const page = document.createElement("div");
+      page.className = "page-print";
+      page.style.cssText = `
         position: relative;
-        height: ${contentHeightPx}px;
+        height: ${contentHeightMm}mm;
         background: white;
         box-sizing: border-box;
         overflow: hidden;
@@ -37,21 +51,19 @@ const paginateCustomForPrint = (data, pageHeightPx, contentHeightPx, footerHeigh
         padding: ${paddingMm}mm ${paddingMm}mm 0mm ${paddingMm}mm;
       `;
 
-      // body
       const body = document.createElement("div");
       body.className = "page-body";
       body.style.cssText = `
-        height: ${usableHeight}px;
+        height: ${usableHeightMm}mm;
         box-sizing: border-box;
         overflow: hidden;
       `;
       body.innerHTML = `
-        <div style="transform: translateY(-${counterPage * usableHeight}px);">
+        <div style="transform: translateY(-${i * usableHeightMm}mm);">
           ${content.innerHTML}
         </div>
       `;
 
-      // footer
       const footer = document.createElement("div");
       footer.className = "page-footer";
       footer.style.cssText = `
@@ -59,33 +71,32 @@ const paginateCustomForPrint = (data, pageHeightPx, contentHeightPx, footerHeigh
         bottom: 0;
         left: 0;
         right: 0;
-        height: ${footerHeightPx}px;
-        line-height: ${footerHeightPx}px;
+        height: ${footerHeightMm}mm;
+        line-height: ${footerHeightMm}mm;
         font-size: 12px;
         display: flex;
         justify-content: space-between;
-        padding: 0 ${paddingMm}mm; /* padding kiri-kanan */
+        padding: 0 ${paddingMm}mm;
         box-sizing: border-box;
       `;
 
-      // footer kiri: info cetak
       const leftText = document.createElement("div");
-      leftText.innerHTML = `Dicetak pada ${moment().format("DD MMMM YYYY, HH:mm:ss")} oleh ${data?.surgeryStatusPost?.[0]?.createdByName}`;
+      leftText.innerHTML = `Dicetak pada ${moment().format(
+        "DD MMMM YYYY, HH:mm:ss"
+      )} ${printedBy ? " oleh "+printedBy+" " : ""}`;
 
-      // footer kanan: nomor halaman
       const rightText = document.createElement("div");
-      rightText.innerHTML = `${counterPage + 1}/${totalPages}`;
+      rightText.innerHTML = `${i + 1}/${totalPages}`;
 
-      // gabungkan konten
       footer.appendChild(leftText);
       footer.appendChild(rightText);
-      pageDiv.appendChild(body);
-      pageDiv.appendChild(footer);
-      section.appendChild(pageDiv);
+      page.appendChild(body);
+      page.appendChild(footer);
+      section.appendChild(page);
     }
 
-    // sembunyikan konten asli
     content.style.display = "none";
   });
 };
+
 module.exports = {paginateCustomForPrint}
